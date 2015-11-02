@@ -11,6 +11,11 @@ use Cake\Utility\Hash;
 class PermissionsTable extends BaseTable
 {
 
+    public function initialize(array $config)
+    {
+        $this->table('aros_acos');
+    }
+
     public function acoList($aro)
     {
         $permissions = $this->find()
@@ -36,7 +41,9 @@ class PermissionsTable extends BaseTable
 
         if (array_key_exists($aco['id'], $permissions)) {
             $aco['inherited'] = $permissions[$aco['id']]->inherited;
-            $aco['allowed'] = $permissions[$aco['id']]->allowed;
+            if(!$aco['inherited']) {
+                $aco['allowed'] = $permissions[$aco['id']]->allowed;
+            }
         }
 
         foreach ($aco['children'] as $key => $children) {
