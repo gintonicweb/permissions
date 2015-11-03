@@ -35,8 +35,6 @@ class PermissionsController extends AppController
             $aro = $arosTable->find()->first();
         }
 
-        // todo: throw error maybe?
-        
         $aros = $arosTable->find()->where(['Aros.alias IS NOT' => null])->all();
         $acos = TableRegistry::get('Permissions.Permissions')->acoList($aro);
 
