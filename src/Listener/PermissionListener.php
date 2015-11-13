@@ -8,6 +8,9 @@ use Cake\ORM\TableRegistry;
 class PermissionListener implements EventListenerInterface
 {
 
+    /**
+     * Callbacks definition
+     */
     public function implementedEvents()
     {
         return [
@@ -15,12 +18,15 @@ class PermissionListener implements EventListenerInterface
         ];
     }
 
+    /**
+     * Automaticaly adds an aro for each subscribed user
+     */
     public function createAros($event)
     {
         $user = $event->subject();
         
         $arosTable = TableRegistry::get('Acl.Aros');
-        $role= $arosTable->findByAlias('user')->first();
+        $role = $arosTable->findByAlias('user')->first();
         $aro = $arosTable->newEntity();
 
         $aro->parent_id = $role->id;

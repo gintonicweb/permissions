@@ -13,6 +13,9 @@ use Cake\ORM\TableRegistry;
  */
 class PermissionsController extends AppController
 {
+    /**
+     * {@inherit}
+     */
     public $paginate = [
         'limit' => 25,
         'order' => [
@@ -20,6 +23,9 @@ class PermissionsController extends AppController
         ]
     ];
 
+    /**
+     * {@inherit}
+     */
     public function initialize()
     {
         parent::initialize();
@@ -27,11 +33,16 @@ class PermissionsController extends AppController
         $this->loadComponent('Acl.Acl');
     }
 
+    /**
+     * Retrieve permissions for a given role
+     *
+     * param string $role the aro alias
+     */
     public function actions($role = null)
     {
         $arosTable = TableRegistry::get('Acl.Aros');
-        if(isset($this->request->data['aro'])) {
-            $role= $this->request->data['aro'];
+        if (isset($this->request->data['aro'])) {
+            $role = $this->request->data['aro'];
         }
         if ($role != null) {
             $aro = $arosTable->findByAlias($role)->first();
@@ -39,8 +50,6 @@ class PermissionsController extends AppController
             $aro = $arosTable->find()->first();
         }
 
-        // todo: throw error maybe?
-        
         $aros = $arosTable->find()->where(['Aros.alias IS NOT' => null])->all();
         $acos = TableRegistry::get('Permissions.Permissions')->acoList($aro);
 
@@ -48,6 +57,9 @@ class PermissionsController extends AppController
         $this->set('_serialize', ['aros', 'acos', 'aro']);
     }
 
+    /**
+     * Retrieve permissions for a given role
+     */
     public function setPermissions()
     {
         $aro = $this->request->data['aro'];

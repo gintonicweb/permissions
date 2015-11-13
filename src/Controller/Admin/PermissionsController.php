@@ -13,6 +13,9 @@ use Cake\ORM\TableRegistry;
  */
 class PermissionsController extends AppController
 {
+    /**
+     * {@inherit}
+     */
     public $paginate = [
         'limit' => 25,
         'order' => [
@@ -20,12 +23,18 @@ class PermissionsController extends AppController
         ]
     ];
 
+    /**
+     * {@inherit}
+     */
     public function initialize()
     {
         parent::initialize();
         $this->loadComponent('Paginator');
     }
 
+    /**
+     * get the list of acos with the permissions for a given aro.
+     */
     public function actions($role = null)
     {
         $arosTable = TableRegistry::get('Acl.Aros');
