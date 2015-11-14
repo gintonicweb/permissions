@@ -43,10 +43,33 @@ class PermissionsController extends AppController
         } else {
             $aro = $arosTable->find()->first();
         }
-
-        $aros = $arosTable->find()->where(['Aros.alias IS NOT' => null])->all();
+        $aros = $arosTable->find()
+            ->where([
+                'Aros.alias IS NOT' => null,
+                'Aros.alias IS NOT' => 'admin',
+            ])
+            ->all();
         $acos = TableRegistry::get('Permissions.Permissions')->acoList($aro);
-
         $this->set(compact('aros', 'acos', 'aro', 'users'));
+    }
+
+    /**
+     * like 'index', lists only roles from aros 
+     */
+    public function roles()
+    {
+        $arosTable = TableRegistry::get('Aros');
+        $roles = $arosTable->find()
+            ->where([
+                'Aros.alias IS NOT' => null,
+                'Aros.alias IS NOT' => 'admin',
+            ])
+            ->all();
+        foreach ($roles as $role) {
+            $role->count = $arosTable->find()
+                ->where(['parent_id' => $role->id])
+                ->count();
+        }
+        $this->set(compact('roles'));
     }
 }

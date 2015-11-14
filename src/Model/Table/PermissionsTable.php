@@ -2,6 +2,7 @@
 namespace Permissions\Model\Table;
 
 use Acl\Model\Table\PermissionsTable as BaseTable;
+use ArrayObject;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
@@ -53,7 +54,7 @@ class PermissionsTable extends BaseTable
      * return bool $allowed parent's status, use when inherited
      * return array
      */
-    public function mapStatus(array $aco, array $permissions, $allowed)
+    public function mapStatus(Entity $aco, array $permissions, $allowed)
     {
         $aco['inherited'] = true;
         $aco['allowed'] = $allowed;
