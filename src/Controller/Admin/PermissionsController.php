@@ -54,7 +54,7 @@ class PermissionsController extends AppController
     }
 
     /**
-     * like 'index', lists only roles from aros 
+     * like 'index', lists only roles from aros
      */
     public function roles()
     {
