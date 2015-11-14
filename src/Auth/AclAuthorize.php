@@ -12,7 +12,8 @@ use Cake\ORM\TableRegistry;
 class AclAuthorize extends ActionsAuthorize
 {
     /**
-     * Authorize a user using the AclComponent.
+     * Authorize a user. This method expects the role admin to exist in the
+     * aros table. Admin users are allowed an authorization bypass
      *
      * @param array $user The user to authorize
      * @param \Cake\Network\Request $request The request needing authorization.
@@ -20,30 +21,40 @@ class AclAuthorize extends ActionsAuthorize
      */
     public function authorize($user, Request $request)
     {
+        // Regular permissions processing
         if (parent::authorize($user, $request)) {
             //return true;
         }
 
-        $actionAlias = rtrim($this->config()['actionPath'], '/');
-        $permissionsTable = TableRegistry::get('Acl.Permissions');
-        $result = $permissionsTable->find()
+        // Non-logged users are not allowed in
+        $arosTable = TableRegistry::get('Acl.Aros');
+        $aro = $arosTable->find()
             ->where([
-                '_create' => 1,
-                '_read' => 1,
-                '_update' => 1,
-                '_delete' => 1,
+                'model' => 'Users',
+                'foreign_key' => $user['id']
             ])
-            ->matching('Acos', function ($q) use ($actionAlias) {
-                return $q->where(['alias' => $actionAlias]);
-            })
-            ->matching('Aros', function ($q) {
-                return $q->where(['Aros.parent_id IS NULL']);
-            })->count();
+            ->first();
+        if (is_null($aro)) {
+            return false;
+        }
 
-        if ($result === 0) {
+        // Admins have a bypass and are allowed everything
+        $role = $arosTable->get($aro->parent_id);
+        if ($role->alias === 'admin') {
+            return true;
+        }
+
+        // When there's no admin, everything is unlocked
+        $count = $arosTable->find()
+            ->where(['parent_id' => $role->id])
+            ->count();
+
+        if ($count == 0) {
             $this->_registry->Flash->warning('Warning : No admin role has been defined. The administration panel is world-accessible');
             return true;
         }
+
+        // Default deny
         return false;
     }
 }
