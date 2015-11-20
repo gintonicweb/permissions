@@ -42,6 +42,7 @@ class ConfigAuthorize extends BaseAuthorize
     {
         parent::__construct($registry, $config);
         $this->_permissions = $registry->getController()->permissions;
+        $this->_controller = $registry->getController();
         $this->_roles = TableRegistry::get($this->config('rolesModel'));
     }
 
@@ -116,6 +117,7 @@ class ConfigAuthorize extends BaseAuthorize
             return true;
         }
         if (!$this->_adminExist($role, $action)) {
+            $this->_controller->Flash->warning('Warning : No admin role has been defined. The administration panel is world-accessible');
             return true;
         }
         return false;
