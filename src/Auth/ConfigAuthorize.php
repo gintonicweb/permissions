@@ -41,7 +41,7 @@ class ConfigAuthorize extends BaseAuthorize
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         parent::__construct($registry, $config);
-        $this->_permissions = $registry->getController()->permissions;
+        $this->_permissions = $registry->getController()->permissions ?: [];
         $this->_controller = $registry->getController();
         $this->_roles = TableRegistry::get($this->config('rolesModel'));
     }
