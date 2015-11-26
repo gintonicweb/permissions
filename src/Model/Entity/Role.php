@@ -38,11 +38,11 @@ class Role extends Entity
      * @param string $value or array $keys or NULL for complete array result
      * @return mixed string/array
      */
-    public static function types($value = null)
+    public static function names($value = null)
     {
         $options = [
-            self::ADMIN => 'admin',
-            self::USER => 'user',
+            self::ADMIN => 'Admin',
+            self::USER => 'User',
         ];
         return self::enum($value, $options);
     }
