@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gintonicweb/permissions.svg?branch=master)](https://travis-ci.org/gintonicweb/permissions)
+[![codecov.io](https://codecov.io/github/gintonicweb/permissions/coverage.svg?branch=master)](https://codecov.io/github/gintonicweb/permissions?branch=master)
 # Permissions plugin for CakePHP
 
 ## Warning
