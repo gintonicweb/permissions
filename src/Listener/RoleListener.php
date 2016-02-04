@@ -11,6 +11,8 @@ class RoleListener implements EventListenerInterface
 {
     /**
      * Callbacks definition
+     *
+     * @return array
      */
     public function implementedEvents()
     {
@@ -22,6 +24,10 @@ class RoleListener implements EventListenerInterface
 
     /**
      * Automaticaly adds an aro for each subscribed user
+     *
+     * @param Event $event After identify event
+     * @param array $user user that has identified
+     * @return array
      */
     public function afterIdentify(Event $event, array $user)
     {
@@ -33,6 +39,10 @@ class RoleListener implements EventListenerInterface
 
     /**
      * Automaticaly adds an aro for each subscribed user
+     *
+     * @param Event $event After identify event
+     * @param array $user user that has identified
+     * @return void
      */
     public function afterSignup(Event $event, array $user)
     {
