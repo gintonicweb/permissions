@@ -33,7 +33,7 @@ class RoleListener implements EventListenerInterface
     {
         $rolesTable = TableRegistry::get('Permissions.Roles');
         $role = $rolesTable->find()->where(['user_id' => $user['id']])->first();
-        $user['role'] = $role['role'];
+        $user['role'] = $role['role'] ?: Role::USER;
         return $user;
     }
 
