@@ -13,8 +13,8 @@ use Cake\ORM\Entity;
  */
 class Role extends Entity
 {
-    const ADMIN = 0;
-    const USER = 1;
+    const ADMIN = 1;
+    const USER = 2;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
