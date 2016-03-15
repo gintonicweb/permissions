@@ -31,6 +31,9 @@ class RoleListener implements EventListenerInterface
      */
     public function afterIdentify(Event $event, array $user)
     {
+        if ($event->result !== null) {
+            $user = $event->result;
+        }
         $rolesTable = TableRegistry::get('Permissions.Roles');
         $role = $rolesTable->find()->where(['user_id' => $user['id']])->first();
         $user['role'] = $role['role'] ?: Role::USER;
