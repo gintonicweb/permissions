@@ -29,7 +29,7 @@ class RoleListener implements EventListenerInterface
      * @param array $user user that has identified
      * @return array
      */
-    public function afterIdentify(Event $event, array $user)
+    public function afterIdentify(Event $event, $user)
     {
         if ($event->result !== null) {
             $user = $event->result;
@@ -47,7 +47,7 @@ class RoleListener implements EventListenerInterface
      * @param array $user user that has identified
      * @return void
      */
-    public function afterSignup(Event $event, array $user)
+    public function afterSignup(Event $event, $user)
     {
         $user = $event->subject->Auth->user();
         $user['role'] = Role::USER;
