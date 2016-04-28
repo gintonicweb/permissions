@@ -3,11 +3,11 @@
 namespace Permissions\Listener;
 
 use Cake\Event\Event;
-use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
+use Crud\Listener\BaseListener;
 use Permissions\Model\Entity\Role;
 
-class RoleListener implements EventListenerInterface
+class RoleListener extends BaseListener
 {
     /**
      * Callbacks definition
@@ -18,7 +18,7 @@ class RoleListener implements EventListenerInterface
     {
         return [
             'Auth.afterIdentify' => 'afterIdentify',
-            'Users.afterSignup' => 'afterSignup',
+            'Users.afterRegister' => 'afterRegister',
         ];
     }
 
@@ -47,10 +47,10 @@ class RoleListener implements EventListenerInterface
      * @param array $user user that has identified
      * @return void
      */
-    public function afterSignup(Event $event, $user)
+    public function afterRegister(Event $event)
     {
-        $user = $event->subject->Auth->user();
+        $user = $event->subject->entity->toArray();
         $user['role'] = Role::USER;
-        $event->subject->Auth->setUser($user);
+        $this->_controller()->Auth->setUser($user);
     }
 }
