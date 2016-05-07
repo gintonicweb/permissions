@@ -18,7 +18,7 @@ class RoleListener extends BaseListener
     {
         return [
             'Auth.afterIdentify' => 'afterIdentify',
-            'Users.afterRegister' => 'afterRegister',
+            'Crud.afterRegister' => 'afterRegister',
         ];
     }
 
@@ -49,7 +49,7 @@ class RoleListener extends BaseListener
      */
     public function afterRegister(Event $event)
     {
-        $user = $event->subject->entity->toArray();
+        $user = $this->_controller()->Auth->user();
         $user['role'] = Role::USER;
         $this->_controller()->Auth->setUser($user);
     }
